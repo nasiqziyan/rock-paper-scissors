@@ -10,6 +10,8 @@ function getComputerChoice() {
 
 function playRound(playerSelection, computerSelection) {
     
+    let roundWinner;
+    
     playerSelection = playerSelection.target.textContent; //console.log(this.textContent); equally works to replace this line
     
     
@@ -18,19 +20,57 @@ function playRound(playerSelection, computerSelection) {
 
     if (playerSelection == computerSelection) {
         resultBox.textContent = "It's a tie!";
+        roundWinner = 'tie';
         
 
     } else if ((playerSelection == "Rock" && computerSelection == "Scissors") || 
             (playerSelection == "Paper" && computerSelection == "Rock") || 
             (playerSelection == "Scissors" && computerSelection == "Paper")) {
-
             resultBox.textContent = `You Win! ${playerSelection} beats ${computerSelection}.`;
+            roundWinner = 'player';
+            
 
     } else {
             resultBox.textContent = `You Lose! ${computerSelection} beats ${playerSelection}.`;
+            roundWinner = 'computer';
       }
+
+    updateScores(roundWinner);
     
 }
+
+function updateScores(roundWinner) {
+    switch (roundWinner) {
+        case 'player':
+            playerScore++;
+            console.log(playerScore);
+            break;
+        
+        case 'computer':
+            computerScore++;
+            console.log(computerScore);
+            break;
+            
+        case 'tie':
+            console.log('its a tie.')
+            break;
+                
+    }
+    
+    if ((playerScore == 5) || (computerScore == 5)) {
+        scoreCount.textContent = `${playerScore} - ${computerScore}`;
+        console.log('SOMEONE REACHED 5!!');
+        gameWinner = (playerScore > computerScore) ? 'player' : 'computer';
+        console.log(gameWinner);
+        // gameOver(gameWinner);
+        
+
+    } else {
+        scoreCount.textContent = `${playerScore} - ${computerScore}`;
+    }
+}
+
+
 
 // function game() {
 
@@ -80,6 +120,11 @@ function playRound(playerSelection, computerSelection) {
 const rock = document.querySelector('#rock');
 const paper = document.querySelector('#paper');
 const scissors = document.querySelector('#scissors');
+const scoreCount = document.querySelector('.scoreCount');
+
+let playerScore = 0;
+let computerScore = 0;
+scoreCount.textContent = `${playerScore} - ${computerScore}`;
 
 rock.addEventListener('click', playRound);
 paper.addEventListener('click', playRound);
