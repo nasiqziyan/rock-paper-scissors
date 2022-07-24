@@ -1,4 +1,8 @@
 const resultBox = document.querySelector('.resultBox');
+const modal_container = document.querySelector("#modal_container");
+const modal = document.querySelector(".modal");
+const playAgain = document.querySelector("#playAgain");
+const finalResult = document.querySelector('.finalResult')
 
 
 function getComputerChoice() {
@@ -42,33 +46,37 @@ function playRound(playerSelection, computerSelection) {
 function updateScores(roundWinner) {
     switch (roundWinner) {
         case 'player':
-            playerScore++;
-            console.log(playerScore);
+            playerScore++;  
             break;
         
         case 'computer':
             computerScore++;
-            console.log(computerScore);
             break;
             
         case 'tie':
-            console.log('its a tie.')
             break;
                 
     }
     
     if ((playerScore == 5) || (computerScore == 5)) {
         scoreCount.textContent = `${playerScore} - ${computerScore}`;
-        console.log('SOMEONE REACHED 5!!');
         gameWinner = (playerScore > computerScore) ? 'player' : 'computer';
-        console.log(gameWinner);
-        // gameOver(gameWinner);
+        finalResult.textContent = (gameWinner == 'player') ? 'Congratulations, you win!' : 'You lost.. Be better next time.';
+        gameOver(gameWinner);
+        
         
 
     } else {
         scoreCount.textContent = `${playerScore} - ${computerScore}`;
     }
 }
+
+function gameOver(gameWinner) {
+    modal_container.classList.toggle('toggleModal'); // Opens Modal
+
+}
+
+
 
 
 
@@ -130,6 +138,9 @@ rock.addEventListener('click', playRound);
 paper.addEventListener('click', playRound);
 scissors.addEventListener('click', playRound);
 
-
-
-
+playAgain.addEventListener('click', () => {
+    modal_container.classList.toggle('toggleModal'); //closes Modal
+    playerScore = computerScore = 0;
+    scoreCount.textContent = `${playerScore} - ${computerScore}`;
+    
+})
